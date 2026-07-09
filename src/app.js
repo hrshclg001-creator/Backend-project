@@ -19,4 +19,9 @@ app.use(express.urlencoded({
 app.use(express.static("public"));// for stroing files and folders
 app.use(cookieParser());
 
-export { app }
+// routes  import 
+import  userRouter  from "../src/routes/user.routes.js"
+
+// routes declraration
+app.use("/api/v1/users", userRouter)
+export default app 
