@@ -49,14 +49,13 @@ const userSchema = new Schema({
 {
 	timestamps:true
 });
-
+//Modern Mongoose (version 7 ya 8) mein ek naya rule aaya hai: Agar aap hook mein async function ka use karte hain, toh Mongoose khud-ba-khud uska (Promise) wait kar leta hai. Aapko manually next() likhne ya call karne ki zaroorat nahi hoti. Naye versions mein Mongoose kabhi-kabhi next ko pass hi nahi karta, isliye code bolta hai "next is not a function".
 userSchema.pre(
-	"save",async function (next) {
+	"save",async function () {
 		if(!this.isModified("password")){
-			return next();
+			return;
 		}
 		this.password = await bcrypt.hash(this.password, 10);
-		next();
 	}
 )
 //custom methods
