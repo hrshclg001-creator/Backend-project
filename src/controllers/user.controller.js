@@ -189,32 +189,35 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   try {
     const decodedToken = jwt.verify(
       incomingrefreshToken,
-      process.env.ACCESS_TOKEN_SECRET
+      process.env.REFRESH_TOKEN_SECRET
     );
+
+    //Step 3: Find User & Validate
     const user = await User.findById(decodedToken?._id);
     if (!user) {
       throw new ApiError(401, "Unauthorized request");
     }
-
+    // Compare incoming token with stored token in DB
     if (incomingrefreshToken !== user?.refreshToken) {
       throw new ApiError(401, " refresh token is expired or used");
     }
+
     const options = {
       httpOnly: true,
       secure: true,
     };
-
-    const { newaccessToken, newrefreshToken } =
+    //Step 5: Generate New Tokens
+    const { accessToken, newRefreshToken } =
       await generateAccessAndRefreshTokens(user._id);
-
+    // Send in response
     return res
       .status(200)
-      .cookie("accessToken", newaccessToken, options)
-      .cookie("refreshToken", newrefreshToken, options)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", newRefreshToken, options)
       .json(
         new ApiResponse(
           200,
-          { newaccessToken, newrefreshToken: newrefreshToken },
+          { accessToken, refreshToken: newRefreshToken },
           "Access Token Refreshed Successsfully"
         )
       );
