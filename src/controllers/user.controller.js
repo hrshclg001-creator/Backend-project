@@ -234,7 +234,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
       "confirm password and new password are not matching."
     );
   }
-  const user = User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
   if (!isPasswordCorrect) {
     throw new ApiError(400, "Invalid old password");
@@ -251,7 +251,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
-    .json(200, req.user, "Current user fetched successfuly.");
+    .json(new ApiResponse(200, req.user, "Current user fetched successfuly."));
 });
 // an advice :
 // keep seperate file handling controllers
@@ -260,7 +260,7 @@ const updateUserDetail = asyncHandler(async (req, res) => {
   if (!fullname || !email) {
     throw new ApiError(400, "Both fullname and email are required.");
   }
-  const user = User.findByIdAndUpdate(
+  const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
       $set: {
