@@ -44,10 +44,10 @@ userRouter.route("/update-account").patch(verifyJWT, updateUserDetail);
 
 userRouter
   .route("/update-avatar")
-  .patch(verifyJWT, upload.single("/avatar"), updateUserAvatar);
+  .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 userRouter
   .route("/update-coverImage")
-  .patch(verifyJWT, upload.single("/coverImage"), updateUserCoverImage);
+  .patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
 
 userRouter.route("/c/:username").get(verifyJWT,getUserChannelProfile);
 userRouter.route("/history").get(verifyJWT,getWatchHistory);
