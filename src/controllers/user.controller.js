@@ -5,7 +5,7 @@ import { User } from "../models/user.model.js"; // Fixed case
 import { uploadOnCLoudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import { Subscription } from "./../models/subscription.model";
+import { Subscription } from "./../models/subscription.model.js";
 // register user function
 const registerUser = asyncHandler(async (req, res) => {
   // 1. Getting user details
