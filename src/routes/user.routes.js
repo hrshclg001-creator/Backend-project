@@ -51,4 +51,10 @@ userRouter
 
 userRouter.route("/c/:username").get(verifyJWT,getUserChannelProfile);
 userRouter.route("/history").get(verifyJWT,getWatchHistory);
+
+
+
+
+
+
 export default userRouter;

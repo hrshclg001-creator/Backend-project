@@ -284,7 +284,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   if (!avatarLocalPath) {
     throw new ApiError(400, " Avatar file is missing ");
   }
-  const avatar = uploadOnCLoudinary(avatarLocalPath);
+  const avatar =await uploadOnCLoudinary(avatarLocalPath);
   if (!avatar?.url) {
     throw new ApiError(400, " Avatar url is missing ");
   }
@@ -345,15 +345,15 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     {
       //for number of Subscriber of a channel
       $lookup: {
-        from: "subscription",
+        from: "subscriptions",
         localField: "_id",
         foreignField: "channel",
-        as: "Subscribers",
+        as: "subscribers",
       },
     },
     {
       $lookup: {
-        from: "Subscription",
+        from: "subscriptions",
         localField: "_id",
         foreignField: "subscriber",
         as: "SubscribedTo",
